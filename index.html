@@ -5,21 +5,60 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.0/bootstrap-slider.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.0/css/bootstrap-slider.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.0/css/bootstrap-slider.min.css" />
+  
+  <script src="./assets/js/index.js"></script>
 
 </head>
 <body>
-	<div>
+  <div>
 		<div>
-			<h4>8 transactions closed by year end</h4>
-			<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
-		</div>
-		<input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
-		<input value="2.5% Average Commission Rate"/>
+			<h4 id="transaction-description">8 transactions closed by year end</h4>
+			<input id="transaction-count" type="text" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="1"/>
+    </div>
+    
+		<div>
+			<input id="avg-sale-price" type="text" data-slider-min="10000" data-slider-max="1000000" data-slider-step="10000" data-slider-value="10000"/>
+    </div>
+
+    <div>
+      <input id="avg-commission-rate" value="2.5% Average Commission Rate"/>
+    </div>
 	</div>
-	
-	<div>
+  
+  <h2>Paid to Giddy Digs: $4,000</h2>
+	<div class="paid-to-digs">
+    <div>
+      <h4 id="per-month-description">$0 per Month</h4>
+      <div>
+        <input id="per-month" type="text" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="1"/>
+        <span>$5,200 per Year</span>
+      </div>
+    </div>
 		
+    <div>
+      <h4 id="per-commission-description">0% per Commission</h4>
+      <div>
+        <input id="per-commission" type="text" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="1"/>
+        <span>$2,000 per Year</span>
+      </div>
+    </div>
+
+    <div>
+      <h4 id="per-transaction-description">$0 per Transaction</h4>
+      <div>
+        <input id="per-transaction" type="text" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="1"/>
+        <span>$4,000 per Year</span>
+      </div>
+    </div>
+
+    <div>
+      <h4 id="pre-paid-description">$4,000 Pre-Paid</h4>
+      <div>
+        <input id="pre-paid-count" type="text" data-slider-min="0" data-slider-max="50" data-slider-step="1" data-slider-value="1"/>
+        <span>$4,000 per Year</span>
+      </div>
+    </div>
 	</div>
 </body>
 </html>
