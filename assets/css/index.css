@@ -1,0 +1,85 @@
+.lock {
+  background: url("../img/lock.svg") no-repeat scroll;
+}
+
+.unlock {
+  background: url("../img/unlock.svg") no-repeat scroll;
+}
+
+span.lock, span.unlock {
+  width: 26px;
+  height:26px;
+  margin-top: 5px;
+  display: inline-block;
+}
+
+.container {
+  text-align: center;
+}
+
+.main {
+  display: inline-block;
+  text-align: left;
+}
+
+.main > .title {
+  text-align: center;
+}
+
+h4 {
+  margin-bottom: 5px;
+}
+
+.total-area {
+  padding: 0px 30px 0px;
+}
+
+.paid-to-digs {
+  border-style: solid;
+  padding: 0px 30px 25px 10px;
+}
+
+.paid-to-digs h4 {
+  margin-left: 30px;
+}
+
+.paid-to-digs + div {
+  padding-top: 20px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.paid-to-digs + div > input {
+  background-color: #2ccce4;
+  border: none;
+  outline: none;
+}
+
+.total-area > div {
+  margin-bottom: 20px;
+}
+
+#avg-commission-rate {
+  border-style: groove;
+}
+
+.slider-handle {
+  background: #2ccce4;
+  position: absolute;
+}
+
+.slider {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 400px !important;
+  max-width: 400px !important;
+}
+
+.slider-selection {
+  background: #2714EA;
+}
+
+.slider-track {
+  height: 10px;
+  width: 100%;
+}
