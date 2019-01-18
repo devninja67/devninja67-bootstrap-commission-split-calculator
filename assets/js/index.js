@@ -19,10 +19,10 @@ $(document).ready(function() {
                     "pre-paid",
                   ];
   let description = [
-                      {unit: "$", suffix: " transactions closed by year end"},
+                      {unit: "", suffix: " transactions closed by year end"},
                       {unit: "$", suffix: " Average Sale Price"},
                       {unit: "$", suffix: " per Month"},
-                      {unit: "%", suffix: " per Commission"},
+                      {unit: "", suffix: "% per Commission"},
                       {unit: "$", suffix: " per Transaction"},
                       {unit: "$", suffix: " Pre-Paid"},
   ];
