@@ -59,6 +59,11 @@ h4 {
   margin-bottom: 20px;
 }
 
+.total-area #avg-commission-rate {
+  width: 230px;
+  padding-left: 10px;
+}
+
 #avg-commission-rate {
   border-style: groove;
 }
@@ -82,4 +87,20 @@ h4 {
 .slider-track {
   height: 10px;
   width: 100%;
+}
+
+@media only screen and (max-width: 628px) {
+  .total-area #avg-commission-rate {
+    width: 100%;
+    padding-left: 10px;
+  }
+
+  .paid-to-digs > div span {
+    display: inline-block;
+    padding-left: 30px;
+  }
+
+  .slider {
+    width: 80% !important;
+  }
 }
