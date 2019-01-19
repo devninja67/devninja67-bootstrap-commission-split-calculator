@@ -9,6 +9,10 @@ const addComma = (number) => {
   return str.join('.');
 }
 
+const goToNextPage = () => {
+  // window.location = './nextPage.html';
+}
+
 $(document).ready(function() {
   let sliderIds = [
                     "transaction-count",
@@ -87,6 +91,10 @@ $(document).ready(function() {
     $("#" + sliderIds[2] + " + span")[0].innerHTML = "$" + addComma(tf) + " per Year";
     $("#" + sliderIds[3] + " + span")[0].innerHTML = "$" + addComma(tg) + " per Year";
     $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(h)  + " per Year";
+
+    sliderIds.forEach((sliderId, idx) => {
+      $("#" + sliderId + "-description")[0].innerHTML = description[idx].unit + addComma(sliders[idx].getValue()) + description[idx].suffix;
+    });
   }
 
   const getPercent = (id) => {return sliders[id + 1].getValue() / maxSliderValue[id] * 100;}
@@ -135,7 +143,6 @@ $(document).ready(function() {
         }
       }
       updatePaidDigs();
-      $("#" + sliderIds[idx] + "-description")[0].innerHTML = description[idx].unit + addComma(slider.getValue()) + description[idx].suffix;
     });
   });
 });
