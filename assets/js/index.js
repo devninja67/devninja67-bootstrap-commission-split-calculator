@@ -47,6 +47,7 @@ $(document).ready(function() {
     tmp = tmp > 1000000? 1000000 : tmp;
     if(e.target.id === "avg-commission-rate") tmp = tmp > 100? 100 : tmp;
     e.target.innerHTML = addComma(tmp);
+    updatePaidDigs();
   });
 
   // update digs
@@ -64,33 +65,36 @@ $(document).ready(function() {
 
   const updatePaidDigs = () => {
     let a = sliders[0].getValue();
-    let b = sliders[1].getValue();
-    let c = 2.5;
+    let b = parseFloat($("#avg-sale-price")[0].innerHTML.replace(/,/g, ''));
+    let c = parseFloat($("#avg-commission-rate")[0].innerHTML.replace(/,/g, ''));
     let d;
     let e = sliders[1].getValue();
     let f = sliders[2].getValue();
     let g = sliders[3].getValue();
     let h = sliders[4].getValue();
     let te = e * 12;
-    let tf = f / 100 * a * b * c; tf = tf > 6000 ? 6000 : tf; tf = tf.toFixed(0);
-    let tg = g * a;               tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0);
-    d = te + tf.to_f + tg.to_f + h.to_f;         d  = d  > 6000 ? 6000 : d;  d  = d.toFixed(0);
+    let tf = f / 100 * a * b * c/100;
+    let tg = g * a;
+    d = te + tf + tg + h;
+    tf = tf > 6000 ? 6000 : tf; tf = tf.toFixed(0); tf = parseFloat(tf);
+    tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
+    d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
 
     $("#paid-to-giddy-digs")[0].innerHTML = "Paid to Giddy Digs: $"+ addComma(d);
     $("#" + sliderIds[1] + " + span")[0].innerHTML = "$" + addComma(te) + " per Year";
     $("#" + sliderIds[2] + " + span")[0].innerHTML = "$" + addComma(tf) + " per Year";
     $("#" + sliderIds[3] + " + span")[0].innerHTML = "$" + addComma(tg) + " per Year";
-    $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(h) + " per Year";
+    $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(h)  + " per Year";
   }
 
   generateSliders();
 
   sliders.forEach((slider, idx) => {
-    slider.on('slide', (value)=> {
+    slider.on('change', (param)=> {
+      let value = param.newValue;
       slider.setValue(value);
       $("#" + sliderIds[idx] + "-description")[0].innerHTML = description[idx].unit + addComma(value) + description[idx].suffix;
       updatePaidDigs();
     });
   });
-
 });
