@@ -5,12 +5,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Next Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="./assets/css/nextpage.css" />
+  <script src="./assets/js/function.js"></script>
+
   <script>
-    console.log(document.getElementsByTagName("p"));
+    document.addEventListener('DOMContentLoaded', () => {
+      let spans = document.getElementsByTagName("span");
+      for(i = 0;i <= 10; i++) {
+        spans[i].innerHTML = addComma(localStorage.getItem("#" + i));
+      }
+    }, false);
   </script>
 </head>
 <body>
-  <p>
-  </p>
+  <div class="main">
+    <div class="center">
+      <div>
+        <p><span></span> Transactions Per Year</p>
+        <p>$<span></span> Average Sale Price</p>
+        <p><span></span>% Average Commission Rate</p>
+      </div>
+      <div>
+          <h3>You Pay Giddy Digs</h3>
+          <p>$<span></span></p>
+          <p>$<span></span> per Month $<span></span> per Year</p>
+          <p><span></span>% per Transaction $<span></span> per Year</p>
+          <p>$<span></span> per Transaction $<span></span> per Year</p>
+          <p>$<span></span> Pre-Paid $<span></span> per Year</p>
+      </div>
+      <div class="back">
+        <a class="button" href="./index.html">Back</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

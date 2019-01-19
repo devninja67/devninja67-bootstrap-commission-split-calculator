@@ -1,16 +1,33 @@
-const addComma = (number) => {
-  var str = number.toString().split('.');
-  if (str[0].length >= 4) {
-      str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
-  }
-  if (str[1] && str[1].length >= 5) {
-      str[1] = str[1].replace(/(\d{3})/g, '$1 ');
-  }
-  return str.join('.');
-}
-
 const goToNextPage = () => {
-  // window.location = './nextPage.html';
+  let a = parseFloat($("#transaction-count")[0].value);
+  let b = parseFloat($("#avg-sale-price")[0].innerHTML.replace(/,/g, ''));
+  let c = parseFloat($("#avg-commission-rate")[0].innerHTML.replace(/,/g, ''));
+  let d;
+  let e = parseFloat($("#per-month")[0].value);
+  let f = parseFloat($("#per-commission")[0].value);
+  let g = parseFloat($("#per-transaction")[0].value);
+  let h = parseFloat($("#pre-paid")[0].value);
+  let te = e * 12;
+  let tf = f / 100 * a * b * c/100;
+  let tg = g * a;
+  d = te + tf + tg + h;
+  tf = tf > 6000 ? 6000 : tf; tf = tf.toFixed(0); tf = parseFloat(tf);
+  tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
+  d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
+
+  localStorage.setItem("#0", a);
+  localStorage.setItem("#1", b);
+  localStorage.setItem("#2", c);
+  localStorage.setItem("#3", d);
+  localStorage.setItem("#4", e);
+  localStorage.setItem("#5", te);
+  localStorage.setItem("#6", f);
+  localStorage.setItem("#7", tf);
+  localStorage.setItem("#8", g);
+  localStorage.setItem("#9", tg);
+  localStorage.setItem("#10", h);
+
+  window.location = './nextPage.html';
 }
 
 $(document).ready(function() {
