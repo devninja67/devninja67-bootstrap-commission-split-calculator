@@ -25,6 +25,8 @@ $(document).ready(function() {
                       {unit: "$", suffix: " Pre-Paid"},
   ];
 
+  let maxSliderValue = [430, 5, 500, 4000];
+
   let sliders;
 
   const generateSliders = () => {
@@ -87,14 +89,53 @@ $(document).ready(function() {
     $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(h)  + " per Year";
   }
 
+  const getPercent = (id) => {return sliders[id + 1].getValue() / maxSliderValue[id] * 100;}
+
+  const percentToValue = (idx, percent) => {return maxSliderValue[idx] * percent / 100;}
+
+  const valueToPercent = (idx, value) => {return value * 100 / maxSliderValue[idx];}
+
+  const percentSum = () => {
+    return maxSliderValue.reduce((sum, maxValue, id) => {
+      return sum + getPercent(id);
+    }, 0);
+  }
+
+  const changeSliderValue = (idx, changePercent) => {
+    currentPercent = getPercent(idx - 1);
+    if(changePercent < 0 ) {
+      sliders[idx].setValue(
+        percentToValue(idx -1, currentPercent + Math.min(100 - currentPercent, Math.abs(changePercent)))
+      );
+    }
+    else {
+      sliders[idx].setValue(
+        percentToValue(idx-1, currentPercent - Math.min(currentPercent, changePercent))
+      );
+    }
+  }
+
   generateSliders();
 
   sliders.forEach((slider, idx) => {
     slider.on('change', (param)=> {
       let value = param.newValue;
       slider.setValue(value);
-      $("#" + sliderIds[idx] + "-description")[0].innerHTML = description[idx].unit + addComma(value) + description[idx].suffix;
+      if(idx > 0) {
+        let changePercent = percentSum() - 100;
+        let stride = changePercent > 0 ? 1 : -1;
+        let nextIdx = idx;
+        while(changePercent != 0.0) {
+          nextIdx = (nextIdx - 1 + stride + 4) % 4 + 1;
+          if(sliders[nextIdx].isEnabled()) {
+            changeSliderValue(nextIdx, changePercent);
+            changePercent = percentSum() - 100;
+          }
+          if(nextIdx === idx) break;
+        }
+      }
       updatePaidDigs();
+      $("#" + sliderIds[idx] + "-description")[0].innerHTML = description[idx].unit + addComma(slider.getValue()) + description[idx].suffix;
     });
   });
 });
