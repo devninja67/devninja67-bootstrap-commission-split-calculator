@@ -1,3 +1,5 @@
+let maxSliderValue = [430, 5, 500, 4000];
+
 const goToNextPage = () => {
   let a = parseFloat($("#transaction-count")[0].value);
   let b = parseFloat($("#avg-sale-price")[0].innerHTML.replace(/,/g, ''));
@@ -7,12 +9,18 @@ const goToNextPage = () => {
   let f = parseFloat($("#per-commission")[0].value);
   let g = parseFloat($("#per-transaction")[0].value);
   let h = parseFloat($("#pre-paid")[0].value);
+  let maxH = maxSliderValue[3];
   let te = e * 12;
+  let maxTe = maxSliderValue[0] * 12;
   let tf = f / 100 * a * b * c/100;
+  let maxTf = maxSliderValue[1] / 100 * a * b * c/100;
   let tg = g * a;
+  let maxTg = maxSliderValue[2] * a;
   d = te + tf + tg + h;
   tf = tf > 6000 ? 6000 : tf; tf = tf.toFixed(0); tf = parseFloat(tf);
+  maxTf = maxTf > 6000 ? 6000 : maxTf; maxTf = maxTf.toFixed(0); maxTf = parseFloat(maxTf);
   tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
+  maxTg = maxTg > 6000 ? 6000 : maxTg; maxTg = maxTg.toFixed(0); maxTg = parseFloat(maxTg);
   d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
 
   localStorage.setItem("#0", a);
@@ -20,12 +28,13 @@ const goToNextPage = () => {
   localStorage.setItem("#2", c);
   localStorage.setItem("#3", d);
   localStorage.setItem("#4", e);
-  localStorage.setItem("#5", te);
+  localStorage.setItem("#5", maxTe);
   localStorage.setItem("#6", f);
-  localStorage.setItem("#7", tf);
+  localStorage.setItem("#7", maxTf);
   localStorage.setItem("#8", g);
-  localStorage.setItem("#9", tg);
+  localStorage.setItem("#9", maxTg);
   localStorage.setItem("#10", h);
+  localStorage.setItem("#11", maxH);
 
   window.location = './nextPage.html';
 }
@@ -45,8 +54,6 @@ $(document).ready(function() {
                       {unit: "$", suffix: " per Transaction"},
                       {unit: "$", suffix: " Pre-Paid"},
   ];
-
-  let maxSliderValue = [430, 5, 500, 4000];
 
   let sliders;
 
@@ -95,19 +102,25 @@ $(document).ready(function() {
     let f = sliders[2].getValue();
     let g = sliders[3].getValue();
     let h = sliders[4].getValue();
+    let maxH = maxSliderValue[3];
     let te = e * 12;
+    let maxTe = maxSliderValue[0] * 12;
     let tf = f / 100 * a * b * c/100;
+    let maxTf = maxSliderValue[1] / 100 * a * b * c/100;
     let tg = g * a;
+    let maxTg = maxSliderValue[2] * a;
     d = te + tf + tg + h;
     tf = tf > 6000 ? 6000 : tf; tf = tf.toFixed(0); tf = parseFloat(tf);
+    maxTf = maxTf > 6000 ? 6000 : maxTf; maxTf = maxTf.toFixed(0); maxTf = parseFloat(maxTf);
     tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
+    maxTg = maxTg > 6000 ? 6000 : maxTg; maxTg = maxTg.toFixed(0); maxTg = parseFloat(maxTg);
     d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
 
     $("#paid-to-giddy-digs")[0].innerHTML = "Paid to Giddy Digs: $"+ addComma(d);
-    $("#" + sliderIds[1] + " + span")[0].innerHTML = "$" + addComma(te) + " per Year";
-    $("#" + sliderIds[2] + " + span")[0].innerHTML = "$" + addComma(tf) + " per Year";
-    $("#" + sliderIds[3] + " + span")[0].innerHTML = "$" + addComma(tg) + " per Year";
-    $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(h)  + " per Year";
+    $("#" + sliderIds[1] + " + span")[0].innerHTML = "$" + addComma(maxTe) + " per Year";
+    $("#" + sliderIds[2] + " + span")[0].innerHTML = "$" + addComma(maxTf) + " per Year";
+    $("#" + sliderIds[3] + " + span")[0].innerHTML = "$" + addComma(maxTg) + " per Year";
+    $("#" + sliderIds[4] + " + span")[0].innerHTML = "$" + addComma(maxH)  + " per Year";
 
     sliderIds.forEach((sliderId, idx) => {
       $("#" + sliderId + "-description")[0].innerHTML = description[idx].unit + addComma(sliders[idx].getValue()) + description[idx].suffix;
