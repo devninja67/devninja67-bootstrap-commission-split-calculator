@@ -59,7 +59,6 @@ $(document).ready(function() {
 
   const generateSliders = () => {
     sliders = sliderIds.map((sliderName) => new Slider('#' + sliderName, {}));
-    sliders[4].disable();
   }
 
   // editable area
