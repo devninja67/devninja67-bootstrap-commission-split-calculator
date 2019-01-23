@@ -1,5 +1,10 @@
 let maxSliderValue = [430, 5, 500, 4000];
 
+ // when key called 'delete' was pressed,1
+ // when key called 'BackSpace' was pressed, -1
+ // else 0
+var pressedKey = 0;
+
 const goToNextPage = () => {
   let a = parseFloat($("#transaction-count")[0].value);
   let b = parseFloat($("#avg-sale-price")[0].innerHTML.replace(/,/g, ''));
@@ -22,6 +27,7 @@ const goToNextPage = () => {
   tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
   maxTg = maxTg > 6000 ? 6000 : maxTg; maxTg = maxTg.toFixed(0); maxTg = parseFloat(maxTg);
   d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
+  d = d - te * 0.14 - h / 33.33; d =  d.toFixed(0);  d = parseFloat(d);
 
   localStorage.setItem("#0", a);
   localStorage.setItem("#1", b);
@@ -66,20 +72,41 @@ $(document).ready(function() {
     $(this).children().focus();
   });
 
+  // prevent other key excepted with decimal point or number
   $("#avg-sale-price, #avg-commission-rate").keypress(function(e) {
     if(String.fromCharCode(e.which) != '.' && isNaN(String.fromCharCode(e.which)))
       e.preventDefault();
   });
 
+  // detect if key 'backspace', 'delete' or others
+  $("#avg-sale-price, #avg-commission-rate").keydown(function(e) {
+    var key = event.keyCode || event.charCode;
+    if(key === 8) pressedKey = -1;
+    else if(key === 46) pressedKey = 1;
+    else pressedKey = 0;
+  });
+
+  // when detected inputing, modifying number and set caret position
   $("#avg-sale-price, #avg-commission-rate").on("input", (e) => {
-    let tmp = parseFloat(e.target.innerHTML.replace(/,/g, ''));
-    tmp = tmp > 1000000? 1000000 : tmp;
-    if(e.target.id === "avg-commission-rate") tmp = tmp > 100? 100 : tmp;
-    e.target.innerHTML = addComma(tmp);
+    let caretPos = window.getSelection().anchorOffset;
+    let strTotal = e.target.innerHTML;
+    let result = getNextCaretPos(strTotal, caretPos);
+    e.target.innerHTML = addComma(result[0]);
+    setCaret(e.target.id, result[1]);
+  });
+
+  // when detected blur, convert complete number and update all descriptions
+  $("#avg-sale-price, #avg-commission-rate").blur((e) => {
+    let strTotal = e.target.innerHTML;
+    let totalNumber = parseFloat(strTotal.replace(/[, ]+/g, ''));
+    
+    if(totalNumber >= 1000000) totalNumber = 1000000;
+    if(e.target.id === "avg-commission-rate" && totalNumber >= 100) totalNumber = 100;
+    e.target.innerHTML = addComma(totalNumber);
     updatePaidDigs();
   });
 
-  // update digs
+  // when lock, disable slider, when unlock, enable slider
   $(".paid-to-digs .unlock, .paid-to-digs .lock").each((idx, elem) => {
     elem.addEventListener("click", () => {
       if(elem.className === "lock") {
@@ -92,6 +119,7 @@ $(document).ready(function() {
     });
   });
 
+  // update digs
   const updatePaidDigs = () => {
     let a = sliders[0].getValue();
     let b = parseFloat($("#avg-sale-price")[0].innerHTML.replace(/,/g, ''));
@@ -113,7 +141,8 @@ $(document).ready(function() {
     maxTf = maxTf > 6000 ? 6000 : maxTf; maxTf = maxTf.toFixed(0); maxTf = parseFloat(maxTf);
     tg = tg > 6000 ? 6000 : tg; tg = tg.toFixed(0); tg = parseFloat(tg);
     maxTg = maxTg > 6000 ? 6000 : maxTg; maxTg = maxTg.toFixed(0); maxTg = parseFloat(maxTg);
-    d  = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
+    d = d  > 6000 ? 6000 :  d;  d =  d.toFixed(0);  d = parseFloat(d);
+    d = d - te * 0.14 - h * 0.3333; d =  d.toFixed(0);  d = parseFloat(d);
 
     $("#paid-to-giddy-digs")[0].innerHTML = "Paid to Giddy Digs: $"+ addComma(d);
     $("#" + sliderIds[1] + " + span")[0].innerHTML = "$" + addComma(maxTe) + " per Year";
@@ -132,12 +161,14 @@ $(document).ready(function() {
 
   const valueToPercent = (idx, value) => {return value * 100 / maxSliderValue[idx];}
 
+  // sum of all digs's value
   const percentSum = () => {
     return maxSliderValue.reduce((sum, maxValue, id) => {
       return sum + getPercent(id);
     }, 0);
   }
 
+  // change slider by offset value, 'changePercent'
   const changeSliderValue = (idx, changePercent) => {
     currentPercent = getPercent(idx - 1);
     if(changePercent < 0 ) {
@@ -152,8 +183,10 @@ $(document).ready(function() {
     }
   }
 
+  // generate sliders
   generateSliders();
 
+  // interactive sliders
   sliders.forEach((slider, idx) => {
     slider.on('change', (param)=> {
       let value = param.newValue;
